@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 });
 //GET credits page
 router.get('/author', function(req, res, next) {
-  res.render('credits');
+  res.render('author');
 });
 
 // Autoload de parametros
