@@ -47,6 +47,7 @@ exports.index = function(req, res, next) {
 	}
 	else{
 	var search1 = "%" + search.replace(" ","%") +"%";
+	//,include: [models.Attachment, {model: models.User, as: 'Author', attributes: ['username']}]
      	models.Quiz.findAll({where: ["question like ?", search1], order: ['question']})
     	.then(function(quizzes) {
       		quizzes.sort();

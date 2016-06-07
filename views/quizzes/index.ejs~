@@ -1,5 +1,5 @@
 <form method="get" action="/quizzes">
-	<h3>Busqueda de preguntas</h3>
+	<h3>Barra de busqueda</h3>
 	<input type="text" name="search">
 	<input type="submit" value="Enviar">
 </form>
