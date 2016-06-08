@@ -36,6 +36,8 @@ exports.ownershipRequired = function(req, res, next){
 // GET /quizzes
 exports.index = function(req, res, next) {
 	var search = req.query.search || '';
+	var format = req.params.format || '';
+	if(format === 'html' || format === ''){
 	if(search ===''){
 	models.Quiz.findAll()
 		.then(function(quizzes) {
@@ -57,17 +59,48 @@ exports.index = function(req, res, next) {
      	 next(error);
     	});
 
-  }
+  	}
+	
+	}else if(format === 'json'){
+
+  	models.Quiz.findAll({ attributes: ['id', 'question', 'answer'] } )
+    	.then(function(quizzes) {
+      	res.send(JSON.stringify(quizzes));
+    	})
+    	.catch(function(error) {
+      	next(error);
+    	});
+
+	}else {
+  	next(new Error('Formato no esperado'));
+ 	}
 };
 
 
 // GET /quizzes/:id
 exports.show = function(req, res, next) {
 
-	var answer = req.query.answer || '';
+   var format = req.params.format || '';
 
-	res.render('quizzes/show', {quiz: req.quiz,
-								answer: answer});
+  if(format === '' || format === 'html'){
+  var answer = req.query.answer || '';
+ 
+   res.render('quizzes/show', {quiz: req.quiz,
+                 answer: answer});
+
+   }else if (format === 'json'){
+
+  models.Quiz.findAll({attributes: ['id', 'question', 'answer']})
+    .then(function(quizzes) {
+      res.send(JSON.stringify(req.quiz));
+    })
+    .catch(function(error) {
+      next(error);
+    });
+  } else {
+    next(new Error('Formato no esperado'));
+  }
+
 };
 
 
